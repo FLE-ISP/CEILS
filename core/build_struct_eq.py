@@ -1,4 +1,4 @@
-# Original work copyright 2021 Intesa SanPaolo and Fujitsu Laboratories of Europe
+# Original work copyright 2021 Intesa Sanpaolo S.p.A. and Fujitsu Limited
 # Riccardo Crupi, Alessandro Castelnovo, Beatriz San Miguel Gonzalez, Daniele Regoli
 # This work is based on https://arxiv.org/pdf/2106.07754.pdf
 
