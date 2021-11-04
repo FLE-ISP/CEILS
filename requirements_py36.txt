@@ -1,0 +1,13 @@
+# Python 3.6
+# Common package
+numpy==1.18.5
+scipy==1.5.3
+matplotlib==3.3.2
+PyQt5==5.15.2
+datetime==4.3
+pandas==1.1.4
+category_encoders==2.2.2
+scikit-learn==0.23.2
+# For Alibi
+tensorflow==2.1.2
+alibi==0.5.5
