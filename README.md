@@ -9,7 +9,7 @@ Counterfactual Explanations as Interventions in Latent Space (CEILS) is a method
 
 ## Documentation
 
-To know more about this research work, please refer to our [full paper](https://arxiv.org/pdf/2106.07754.pdf).
+To know more about this research work, please refer to our [full paper](https://arxiv.org/abs/2106.07754).
 
 Currently, CEILS has been published and/or presented in:
 - 8th Causal Inference Workshop at UAI ([causalUAI2021](https://sites.google.com/uw.edu/causaluai2021/home))
