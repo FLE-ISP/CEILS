@@ -1,9 +1,44 @@
+# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 import os
 import networkx as nx
 import matplotlib.pyplot as plt
 from core.build_struct_eq import *
 from core.counter_causal_generator import *
 from core.metrics import *
+
+'''
+Script to run the experiments in the German credit dataset (https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data))
+
+Steps:
+1. The dataset has been downloaded in the data folder
+2. Create graph - this will be plotted 
+3. Add info. about the features (constrains and categorical features) in two main list. Currently we use:
+    constraints_features = {"immutable": ["gender"], "higher": ["age"]}
+    categ_features = ["gender"]
+4. CEILS workflow:
+    - create model to be explained
+    - create structural equations
+    - calculate residuals
+    - create model in the latent space
+    - generate counterfactual explanations using 2 methods: baseline and CEILS
+    - evaluate results using a set of metrics: taking into account all the explanations or only the common explanations obtained by both methods.
+
+'''
+
 
 # create folder to save models
 os.makedirs('models', exist_ok=True)

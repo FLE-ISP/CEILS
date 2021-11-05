@@ -1,3 +1,38 @@
+# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+'''
+Script to run the experiments in a synthetic dataset to check CEILS advantages
+
+Steps:
+1. Create synthetic dataset with the method: sample_synthetic_data(size, random=42):
+2. Create graph - this will be plotted
+3. Add info. about the features (constrains and categorical features) in two main list. No constraints for this experiments
+    constraints_features = {"immutable": [], "higher": []}
+    categ_features = []
+
+4. CEILS workflow:
+    - create model to be explained
+    - create structural equations
+    - calculate residuals
+    - create model in the latent space
+    - generate counterfactual explanations using 2 methods: baseline and CEILS
+    - evaluate results using a set of metrics: taking into account all the explanations or only the common explanations obtained by both methods.
+
+'''
+
+
 import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
@@ -74,7 +109,7 @@ struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=100, n_nodes_M=
 
 ###  Create couterfactuals (saved in data folder)
 create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features,
-                       numCF=20, output_filename=cf_file_name)
+                       numCF=2, output_filename=cf_file_name)
 
 ###  Calculate metrics - results will be printed
 calculate_metrics(X, Y, G, categ_features, constraints_features, cf_file_name=cf_file_name)

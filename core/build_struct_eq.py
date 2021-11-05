@@ -1,18 +1,17 @@
-# Original work copyright 2021 Intesa Sanpaolo S.p.A. and Fujitsu Limited
-# Riccardo Crupi, Alessandro Castelnovo, Beatriz San Miguel Gonzalez, Daniele Regoli
-# This work is based on https://arxiv.org/pdf/2106.07754.pdf
-
+# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 
 from sklearn.model_selection import train_test_split
 from tensorflow.keras import layers
@@ -33,21 +32,34 @@ early_stopping = EarlyStopping(monitor='val_loss', patience=16, min_delta=0.001,
 
 def create_structural_eqs(X, Y, G, n_nodes_se=40, n_nodes_M=100, activation_se='relu'):
     """
-    method to create structural equations F:U->X and prediction model M:X->Y
+    Method to create structural equations (F:U->X) and the original prediction model (M:X->Y). This also calculates and stores residuals.
 
-    Parameters:
-    X: input features as DataFrame
-    Y: target as Series
-    G: causal graph of the data - networkx.classes.digraph.DiGraph
-    n_nodes_se: number of nodes in the neural network of SE (structural equation)
-    n_nodes_M: number of nodes in the neural network of M (model that estimates y)
-    activation_se: type of activation in the SE models
+    Parameters
+    ----------
+    X : pandas DataFrame
+        input features of the dataset
+    Y : pandas Series
+        target to be predicted
+    G : networkx.classes.digraph.DiGraph
+        causal graph of the data
+    n_nodes_se : int
+        number of nodes for the neural network of the strutural equations (SE)
+    n_nodes_M: int
+        number of nodes in the neural network of the original model (M)
+    activation_se: str
+        type of activation for the structural equations
 
-    Returns:
-    struct_eq, nn_causal -- CANNOT BE saved as .h5 model
+    Returns
+    ----------
+    struct_eq: keras.engine.functional.Functional - keras Model
+        structural equations (F:U->X)
+    final : keras.engine.functional.Functional - keras Model
+        model in the latent space. Final model that uses structural equations and original prediction model: M^:U->Y. M^(u)=M(F(u))
 
-    save in files: residuals, nn of the structural equations, model (in models and data folder)
-
+    Additionally:
+    In the folder data, residuals are stored
+    In the folder data, the original prediction model (M - stored as "nn_model"), the model for child nodes and structural equations are stored.
+    Performance metrics are printed in the terminal
     """
 
     # split dataset
@@ -65,7 +77,7 @@ def create_structural_eqs(X, Y, G, n_nodes_se=40, n_nodes_M=100, activation_se='
     # get root nodes
     root_nodes = [n for n, d in G.in_degree() if d == 0]
 
-    # define variables where residuals and residul inputs will be stored
+    # define variables where residuals and residual inputs will be stored
     U_train = X_train[root_nodes].copy()
     U_test = X_test[root_nodes].copy()
     res_inputs = []
@@ -94,7 +106,7 @@ def create_structural_eqs(X, Y, G, n_nodes_se=40, n_nodes_M=100, activation_se='
             if G.in_degree[n] != 0 and set(parents).issubset(set(root_nodes_tmp)) and not n in root_nodes_tmp:
                 print("dealing with ", n, " with parents: ", parents)
 
-                # build the model form parents to n
+                # build the model from parents to node n
                 if len(parents) == 1:
                     parent = parents[0]
                     inputs = node_inputs[parent]
@@ -113,8 +125,9 @@ def create_structural_eqs(X, Y, G, n_nodes_se=40, n_nodes_M=100, activation_se='
                 ff = keras.Model(inputs=inputs, outputs=out, name=n)
 
                 ff.compile(loss=tf.losses.MeanSquaredError(), optimizer=tf.optimizers.Adam(learning_rate=0.0001))
-                hist=ff.fit(X_train_p, X_train[n].values, batch_size=512,
+                hist = ff.fit(X_train_p, X_train[n].values, batch_size=512,
                             epochs=200, verbose=0, validation_split=0.25, callbacks=[early_stopping])
+                #plot history
                 # plt.plot(hist.history['val_loss'])
                 # plt.plot(hist.history['loss'])
                 # plt.show()
@@ -127,7 +140,7 @@ def create_structural_eqs(X, Y, G, n_nodes_se=40, n_nodes_M=100, activation_se='
                 score = ff.evaluate(X_test_p, X_test[n].values, verbose=0)
                 print('The TEST score for model node ', n, ' is ', score)
 
-                # save picture
+                # save picture of the model
                 #dot_img_file = 'model_nn' + node_tmp +'.png'
                 #keras.utils.plot_model(nn, to_file=dot_img_file, show_shapes=True)
 
