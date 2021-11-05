@@ -11,12 +11,11 @@ Counterfactual Explanations as Interventions in Latent Space (CEILS) is a method
 
 To know more about this research work, please refer to our [full paper](https://arxiv.org/pdf/2106.07754.pdf).
 
-Currently, CEILS has been published and presented in:
-<ul>
-  <li>8th Causal Inference Workshop at UAI ([causalUAI2021](https://sites.google.com/uw.edu/causaluai2021/home))
+Currently, CEILS has been published and/or presented in:
+- 8th Causal Inference Workshop at UAI ([causalUAI2021](https://sites.google.com/uw.edu/causaluai2021/home))
   ([Video](https://www.youtube.com/watch?v=adTNX_Um47I)) by Ricardo Cupri</li>
-  <li>[Workshop on Explainable AI in Finance](https://sites.google.com/view/2021-workshop-explainable-ai/home) @ICAIF 2021 by Beatriz San Miguel</li>
-</ul>
+- [Workshop on Explainable AI in Finance](https://sites.google.com/view/2021-workshop-explainable-ai/home) @ICAIF 2021 by Beatriz San Miguel</li>
+
 
 
  
@@ -52,15 +51,14 @@ calculate_metrics(X, Y, G, categ_features, constraints_features)
 
 ## Experiments
 
-Currenly we have include 3 experiments based on public datasets and 2 experiments with synthetic data:
-<ul>
-  <li>[German credit dataset](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data))</li>
-  <li>[Sachs](https://www.bristol.ac.uk/Depts/Economics/Growth/sachs.htm)</li>
-  <li>[Adult income dataset](https://archive.ics.uci.edu/ml/datasets/adult)</li>
-</ul>
+Currenly we have included 3 experiments based on public datasets and 2 experiments with synthetic data:
+- [German credit dataset](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data))
+- [Sachs](https://www.bristol.ac.uk/Depts/Economics/Growth/sachs.htm)
+- [Adult income dataset](https://archive.ics.uci.edu/ml/datasets/adult)
 
 Experiments are under a specific folder in:
 >\experiments_run
 
 We recommend to check the `run_experiment.py` file to know the details and understand the whole CEILS workflow. 
+
 Synthetic datasets experiments are the best way to have a first understanding of our solution
