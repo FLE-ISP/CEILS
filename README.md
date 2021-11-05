@@ -41,7 +41,7 @@ Define the feature constrains (immutable, higher, lower) in generating counterfa
 ### Create structural equations F: U->X, classifier C: X->Y (fitted inside the method) and the composition C_causal(u) = C(F(u))
 F, C_causal = create_structural_eqs(X, Y, G)
 
-### Create couterfactuals: CEILS from the latent space (U), Alibi from feature space (X)
+### Create couterfactuals: CEILS from the latent space (U), [Alibi](https://github.com/SeldonIO/alibi) from feature space (X)
 create_counterfactuals(X, Y, G, F, C_causal, constraints_features, numCF=20)
 
 ### Calculate metrics - results will be printed
