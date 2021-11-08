@@ -65,6 +65,8 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
         """
         Compute a threshold for continuous features over which they are considered as "changed", otherwise they are
         considered fixed. This information is used to compute sparsity.
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        at the end of Sparsity, section 5.2.2.
 
         Parameters
         ----------
@@ -104,6 +106,8 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
     def compute_proximity_cont(cf, orig_x):
         """
         Compute the distance in the original space between the counterfactual explanation and its factual, considering continuous features.
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        equation 16a.
 
         Parameters
         ----------
@@ -128,6 +132,8 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
     def compute_proximity_cat(cf, orig_x):
         """
         Compute the distance in the original space between CF and its factual for categorical feature.
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        equation 16b.
 
         Parameters
         ----------
@@ -158,6 +164,8 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
     def compute_sparsity(cf, orig_x):
         """
         Compute the sparsity of the difference vector between counterfactual and factual (x_cf - x_0)
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        equation 17.
 
         Parameters
         ----------
@@ -182,6 +190,8 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
         """
         This distance computes the difference in L1 norm difference between cf and its component computed by the structural equations
         NOTICE: data must be standardized
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        equation 21.
 
         Parameters
         ----------
@@ -227,6 +237,8 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
         """
         Computes residuals corresponding to observations given as rows in df
         notice that data must be standardized
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        equation 6.
 
         Parameters
         ----------
@@ -261,6 +273,8 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
         """
         Computes the actions as the difference in residuals.
         Notice that data must be standardized
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        in the definition of 'a' in section 4.
 
         Parameters
         ----------
@@ -283,7 +297,9 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
 
     def compute_actions(df_factual, df_cf):
         """
-        Computes the action, norm and MAD
+        Computes the action, norm and MAD.
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        equation 19.
 
         Parameters
         ----------
@@ -347,12 +363,14 @@ def calculate_metrics(X, Y, G, categ_features, constraints_features, intersectio
     def feasibility_constraint(df_factual_sca, df_cf_sca):
         """
         Computes the percentage of the valid counterfactual explanations in the latent space.
+        For reference check "Counterfactual Explanations as Interventions in Latent Space", Crupi et al. (https://arxiv.org/pdf/2106.07754.pdf) 
+        equation 20.
 
         Parameters
         ----------
         df_factual: pandas DataFrame
             original observations (observations x features)
-        df_cf: andas DataFrame
+        df_cf: pandas DataFrame
             counterfactual explanations (observations x features)
 
         Returns
