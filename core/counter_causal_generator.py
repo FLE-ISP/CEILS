@@ -1,13 +1,11 @@
-# Original work copyright 2021 Intesa SanPaolo and Fujitsu Laboratories of Europe
-# Riccardo Crupi, Alessandro Castelnovo, Beatriz San Miguel Gonzalez, Daniele Regoli
-# This work is based on https://arxiv.org/pdf/2106.07754.pdf
-
+# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,22 +36,33 @@ pd.set_option('display.width', 1000)
 def create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF,
                            output_filename="counterfactuals", bool_distribution_train=False):
     """
-    method to create numCF counterfactuals of X_test
+    Method to generate counterfactual explanations using a baseline model and CEILS method.
+    The explanations will be generated for instances included in X_test
 
-    Parameters:
-    X: input features as DataFrame
-    Y: target as Series
-    G: causal graph of the data - networkx.classes.digraph.DiGraph
-    struct_eq: Structuraal equations F:U->X
-    nn_causal: Prediction model M^:U->Y. M^(u)=M(F(u))
-    constraints_features: data dictionary
-    numCF: number of counterfactuals requested
-    bool_distribution_train: boolean to set invalid a counterfactual if it's outside the distribution of the train set.
+    Parameters
+    ----------
+    X : pandas DataFrame
+        input features of the dataset
+    Y : pandas Series
+        target to be predicted
+    G : networkx.classes.digraph.DiGraph
+        causal graph of the data
+    struct_eq: keras.engine.functional.Functional - keras Model
+        structural equations (F:U->X)
+    nn_causal: keras.engine.functional.Functional - keras Model
+        model in the latent space. Final model that uses structural equations and original prediction model: M^:U->Y. M^(u)=M(F(u))
+    constraints_features: dict
+        dictionary to impose the constraints of the features (i.e. immutable, higher, etc.)
+    numCF: int
+        number of counterfactual explanations to be generated
+    bool_distribution_train: bool
+        flag to indicate that a counterfactual explanation is invalid if it's outside the distribution of the train set.
 
-    Returns:
+    Returns
+    ----------
         None
         
-    save counterfactuals in a file (folder data)
+    In the folder data, the counterfactual explanations of both methods (baseline and CEILS) are stored
 
     """
 
