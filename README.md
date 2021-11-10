@@ -47,7 +47,9 @@ pip install -r requirements_py36.txt
 
 CEILS workflow consists of the following steps:
 
+<p align="center">
 <img src="https://user-images.githubusercontent.com/92302358/140288321-2ca4caf8-2e32-421c-916c-b466d6006663.png" alt="drawing" class="center" width="300" height="300"/>
+</p>
 
 ### Inputs
 
@@ -66,7 +68,10 @@ In the method ```create_structural_eqs(X, Y, G)```  from ```core.build_struct_eq
 - composition of the model in the latent space, integrating the previous components (C_causal(U) = C(F(U)))
 
 Summary of the main variables and functions involved:
+
+<p align="center">
 <img src="https://user-images.githubusercontent.com/92302358/140289908-c827961d-f4b7-457d-9bd8-4e8f226fbf4f.png" alt="drawing" class="center" width="300" height="300"/>
+</p>
 
 ### Generation of counterfactual explanations
 
