@@ -57,7 +57,7 @@ Two main inputs are needed:
 - **Data**. Prepare your dataset as a ```pandas.DataFrame``` for the features (X) and a ```pandas.Series``` for the target variable (Y)
 - **Causal graph**. Define your causal relations in a causal graph (G) using ```networkx.DiGraph```.
 
-Moreover, you need to define the features constrains (immutable, higher, lower) as a python dictionary, e.g. constraints_features = {"immutable": ["native-country"], "higher": ["age"]}
+Moreover, you need to define the features constrains (immutable, higher, lower) as a python dictionary, e.g. ```constraints_features = {"immutable": ["native-country"], "higher": ["age"]}```
 
 ### Generation of structural equations and  the model in the latent space
 
