@@ -44,23 +44,39 @@ pip install -r requirements_py36.txt
 ```
 
 ## CEILS Workflow
-<img src="https://user-images.githubusercontent.com/92302358/140288321-2ca4caf8-2e32-421c-916c-b466d6006663.png" alt="drawing" width="300" height="300"/>
 
+CEILS workflow consists of the following steps:
 
+<img src="https://user-images.githubusercontent.com/92302358/140288321-2ca4caf8-2e32-421c-916c-b466d6006663.png" alt="drawing" class="center" width="300" height="300"/>
 
-Prepare the dataset X as pandas.DataFrame, target variable Y as pandas.Series and causal graph G as networkx.DiGraph.
-Define the feature constrains (immutable, higher, lower) in generating counterfactuals, e.g. constraints_features = {"immutable": ["native-country"], "higher": ["age"]}
+### Inputs
 
-### Create structural equations F: U->X, classifier C: X->Y (fitted inside the method) and the composition C_causal(u) = C(F(u))
-F, C_causal = create_structural_eqs(X, Y, G)
+Two main inputs are needed:
+- **Data**. Prepare your dataset as a ```pandas.DataFrame``` for the features (X) and a ```pandas.Series``` for the target variable (Y)
+- **Causal graph**. Define your causal relations in a causal graph (G) using ```networkx.DiGraph```.
 
-### Create couterfactuals: CEILS from the latent space (U), [Alibi](https://github.com/SeldonIO/alibi) from feature space (X)
-create_counterfactuals(X, Y, G, F, C_causal, constraints_features, numCF=20)
+Moreover, you need to define the features constrains (immutable, higher, lower) as a python dictionary, e.g. constraints_features = {"immutable": ["native-country"], "higher": ["age"]}
 
-### Calculate metrics - results will be printed
-calculate_metrics(X, Y, G, categ_features, constraints_features)
+### Generation of structural equations and  the model in the latent space
 
-![image](https://user-images.githubusercontent.com/92302358/140289908-c827961d-f4b7-457d-9bd8-4e8f226fbf4f.png)
+In the method ```create_structural_eqs(X, Y, G)```  from ```core.build_struct_eq``` the following steps are carried out:
+- generation of structural equations (F) mapping U to X (F: U->X)
+- computation of residuals (U)
+- generation of original ML model to predict the target variable Y using the features dataset (C: X->Y)
+- composition of the model in the latent space, integrating the previous components (C_causal(U) = C(F(U)))
+
+Summary of the main variables and functions involved:
+<img src="https://user-images.githubusercontent.com/92302358/140289908-c827961d-f4b7-457d-9bd8-4e8f226fbf4f.png" alt="drawing" class="center" width="300" height="300"/>
+
+### Generation of counterfactual explanations
+
+In the method ```create_counterfactuals(X, Y, G, F, C_causal, constraints_features, numCF=20)``` from ```core.counter_causal_generator```, two set of counterfactual explanations will be generated based on:
+- CEILS approach: uses the model in the latent space and a general counterfactual generator ([Alibi](https://github.com/SeldonIO/alibi) in our current implementation)
+- Baseline approach: uses the original model and the library [Alibi](https://github.com/SeldonIO/alibi) 
+
+### Evaluation
+In the method ```calculate_metrics(X, Y, G, categ_features, constraints_features)``` from ```core.metrics```, a set of metrics will be computed to compare the two sets of counterfactual explanations.
+The metrics will be printed.
 
 ## Experiments
 
