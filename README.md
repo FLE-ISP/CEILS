@@ -44,7 +44,9 @@ pip install -r requirements_py36.txt
 ```
 
 ## CEILS Workflow
-![image](https://user-images.githubusercontent.com/92302358/140288321-2ca4caf8-2e32-421c-916c-b466d6006663.png)
+<img src="https://user-images.githubusercontent.com/92302358/140288321-2ca4caf8-2e32-421c-916c-b466d6006663.png" alt="drawing" width="300" height="300"/>
+
+
 
 Prepare the dataset X as pandas.DataFrame, target variable Y as pandas.Series and causal graph G as networkx.DiGraph.
 Define the feature constrains (immutable, higher, lower) in generating counterfactuals, e.g. constraints_features = {"immutable": ["native-country"], "higher": ["age"]}
