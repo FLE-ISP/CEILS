@@ -5,7 +5,7 @@
 Counterfactual Explanations as Interventions in Latent Space (CEILS) is a methodology to generate counterfactual explanations capturing by design the underlying causal relations from the data, and at the same time to provide feasible recommendations to reach the proposed profile.
 
 > ### Authors & contributors:
-> Riccardo Crupi, Alessandro Castelnovo, Beatriz San Miguel Gonzalez, Daniele Regoli
+> Riccardo Crupi, Alessandro Castelnovo, Daniele Regoli, Beatriz San Miguel Gonzalez
 
 You can cite this work as:
 ```
