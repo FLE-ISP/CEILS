@@ -26,6 +26,7 @@ Currently, CEILS has been published and/or presented in:
 - 8th Causal Inference Workshop at UAI ([causalUAI2021](https://sites.google.com/uw.edu/causaluai2021/home))
   ([Video](https://www.youtube.com/watch?v=adTNX_Um47I)) by Riccardo Crupi</li>
 - [Workshop on Explainable AI in Finance](https://sites.google.com/view/2021-workshop-explainable-ai/home) @ICAIF 2021 by Beatriz San Miguel</li>
+- [ICAART - 14th International Conference on Agents and Artificial Intelligence](https://www.insticc.org/node/TechnicalProgram/icaart/2022/presentationDetails/107615) @ICAART 2022 by Beatriz San Miguel</li>
 
 
 
