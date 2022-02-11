@@ -24,6 +24,11 @@ experiments_run/synthetic_experiments_actionable/data/res_train.csv
 experiments_run/synthetic_experiments_actionable/data/res_test.csv
 experiments_run/synthetic_experiments_actionable/models/*
 
+experiments_run/speedDate_experiments/data/counterfactuals.csv
+experiments_run/speedDate_experiments/data/res_train.csv
+experiments_run/speedDate_experiments/data/res_test.csv
+experiments_run/speedDate_experiments/models/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
