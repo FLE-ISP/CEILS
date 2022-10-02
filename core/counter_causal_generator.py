@@ -1,4 +1,11 @@
-# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+"""
+Module with function :py:func:`.create_counterfactuals` generating two sets of counterfactual explanations will be generated based on:
+
+- CEILS approach: uses the model in the latent space and a general counterfactual generator ([Alibi](https://github.com/SeldonIO/alibi) in our current implementation)
+- Baseline approach: uses the original model and the library [Alibi](https://github.com/SeldonIO/alibi) 
+"""
+
+# Copyright 2021 Intesa SanPaolo S.p.A. and Fujitsu Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,9 +42,9 @@ pd.set_option('display.width', 1000)
 
 def create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF,
                            output_filename="counterfactuals", bool_distribution_train=False):
-    """
-    Method to generate counterfactual explanations using a baseline model and CEILS method.
-    The explanations will be generated for instances included in X_test
+    """Generates counterfactual explanations using a baseline model and CEILS method.
+
+    The explanations will be generated for instances included in X_test.
 
     Parameters
     ----------
@@ -62,7 +69,7 @@ def create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, 
     ----------
         None
         
-    In the folder data, the counterfactual explanations of both methods (baseline and CEILS) are stored
+    In the folder data, the counterfactual explanations of both methods (baseline and CEILS) are stored.
 
     """
 

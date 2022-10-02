@@ -1,4 +1,4 @@
-# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+# Copyright 2021 Intesa SanPaolo S.p.A. and Fujitsu Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ from core.build_struct_eq import *
 from core.counter_causal_generator import *
 from core.metrics import *
 
-'''
+"""
 Script to run the experiments in the German credit dataset (https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data))
 
 Steps:
@@ -37,11 +37,8 @@ Steps:
     - generate counterfactual explanations using 2 methods: baseline and CEILS
     - evaluate results using a set of metrics: taking into account all the explanations or only the common explanations obtained by both methods.
 
-'''
+"""
 
-
-# create folder to save models
-os.makedirs('models', exist_ok=True)
 
 #  Create graph using only 4 features like: https://arxiv.org/pdf/2002.06278.pdf
 def graph_4features():
@@ -101,31 +98,37 @@ def load_germandataset(nodes):
 
     return df[nodes]
 
-### START EXPERIMENT
 
-#  generate graph with 4 features
-G = graph_4features()
-nodes = list(G.nodes)
-nx.draw_circular(G, with_labels=True)
-plt.show()
+if __name__ == "main":
 
-# info about features
-constraints_features = {"immutable": ["gender"], "higher": ["age"]}
-categ_features = ["gender"]
+    ### START EXPERIMENT
 
-#  return dataset with float values and only features included in the graph
-df = load_germandataset(nodes)
+    # create folder to save models
+    os.makedirs('models', exist_ok=True)
 
-Y = df["classification"]
-X = df.drop(["classification"], axis=1)
+    #  generate graph with 4 features
+    G = graph_4features()
+    nodes = list(G.nodes)
+    nx.draw_circular(G, with_labels=True)
+    plt.show()
 
-###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
-struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=20, n_nodes_M=40)
+    # info about features
+    constraints_features = {"immutable": ["gender"], "higher": ["age"]}
+    categ_features = ["gender"]
 
-###  Create couterfactuals (saved in data folder)
-create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF=20)
+    #  return dataset with float values and only features included in the graph
+    df = load_germandataset(nodes)
 
-###  Calculate metrics - results will be printed
-calculate_metrics(X, Y, G, categ_features, constraints_features)
-print("----------- metrics on intersection -------------")
-calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True)
+    Y = df["classification"]
+    X = df.drop(["classification"], axis=1)
+
+    ###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
+    struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=20, n_nodes_M=40)
+
+    ###  Create couterfactuals (saved in data folder)
+    create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF=20)
+
+    ###  Calculate metrics - results will be printed
+    calculate_metrics(X, Y, G, categ_features, constraints_features)
+    print("----------- metrics on intersection -------------")
+    calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True)

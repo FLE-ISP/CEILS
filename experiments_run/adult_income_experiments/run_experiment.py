@@ -1,4 +1,4 @@
-# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+# Copyright 2021 Intesa SanPaolo S.p.A. and Fujitsu Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ from core.build_struct_eq import *
 from core.counter_causal_generator import *
 from core.metrics import *
 
-'''
+"""
 Script to run the experiments in the Adult income dataset (https://archive.ics.uci.edu/ml/datasets/adult)
 
 Steps:
@@ -35,11 +35,7 @@ Steps:
     - generate counterfactual explanations using 2 methods: baseline and CEILS
     - evaluate results using metrics: taking into account all the explanations or only the common explanations obtained by both methods.
  
-'''
-
-
-# create folder to save models
-os.makedirs('models', exist_ok=True)
+"""
 
 def graph_adult_income():
     '''
@@ -135,48 +131,55 @@ def load_adultdataset(nodes):
 
     return df[nodes]
 
-### START EXPERIMENT
-'''
-# Downoload and save the dataset
-s = requests.get("https://raw.githubusercontent.com/jbrownlee/Datasets/master/adult-all.csv").text
 
-df = pd.read_csv(io.StringIO(s), names=["age", "workclass", "fnlwgt", "education", "education-num",
-                                         "marital-status", "occupation", "relationship", "race", "sex",
-                                         "capital-gain", "capital-loss", "hours-per-week", "native-country", "income"])
+if __name__ == "main":
 
-# save original dataset
-df.to_csv("data/adult_income_dataset.csv")  # save as csv file
-'''
+    ### START EXPERIMENT
 
-#  generate graph
-G = graph_adult_income()
-nx.draw_circular(G, with_labels=True)
-plt.show()
-nodes = list(G.nodes)
+    # create folder to save models
+    os.makedirs('models', exist_ok=True)
 
-# info about features
-constraints_features = {"immutable": ["race", "native-country", "sex"], "higher": ["age", "education"]}
-categ_features = ["sex", "race", "occupation", "marital-status", "education", "workclass", "relationship", "native-country"]
+    '''
+    # Downoload and save the dataset
+    s = requests.get("https://raw.githubusercontent.com/jbrownlee/Datasets/master/adult-all.csv").text
 
-# load dataset
-df = load_adultdataset(nodes)
+    df = pd.read_csv(io.StringIO(s), names=["age", "workclass", "fnlwgt", "education", "education-num",
+                                            "marital-status", "occupation", "relationship", "race", "sex",
+                                            "capital-gain", "capital-loss", "hours-per-week", "native-country", "income"])
 
-Y = df["income"]
-X = df.drop(["income"], axis=1)
-# # Target encoding the categorical variables
-# cols_target = ["race", "occupation", "marital-status", "education", "workclass", "relationship", "native-country"]
-# X[cols_target] = X[cols_target].astype(float)
-# enc = ce.target_encoder.TargetEncoder(cols=cols_target).fit(X, Y)
-# X = enc.transform(X, Y)
+    # save original dataset
+    df.to_csv("data/adult_income_dataset.csv")  # save as csv file
+    '''
 
-###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
-struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=100, n_nodes_M=180)
+    #  generate graph
+    G = graph_adult_income()
+    nx.draw_circular(G, with_labels=True)
+    plt.show()
+    nodes = list(G.nodes)
 
-###  Create couterfactuals (saved in data folder)
-create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF=20)
+    # info about features
+    constraints_features = {"immutable": ["race", "native-country", "sex"], "higher": ["age", "education"]}
+    categ_features = ["sex", "race", "occupation", "marital-status", "education", "workclass", "relationship", "native-country"]
 
-###  Calculate metrics - results will be printed
-calculate_metrics(X, Y, G, categ_features, constraints_features)
+    # load dataset
+    df = load_adultdataset(nodes)
 
-print("------------------------- ONLY intersection")
-calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True)
+    Y = df["income"]
+    X = df.drop(["income"], axis=1)
+    # # Target encoding the categorical variables
+    # cols_target = ["race", "occupation", "marital-status", "education", "workclass", "relationship", "native-country"]
+    # X[cols_target] = X[cols_target].astype(float)
+    # enc = ce.target_encoder.TargetEncoder(cols=cols_target).fit(X, Y)
+    # X = enc.transform(X, Y)
+
+    ###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
+    struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=100, n_nodes_M=180)
+
+    ###  Create couterfactuals (saved in data folder)
+    create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF=20)
+
+    ###  Calculate metrics - results will be printed
+    calculate_metrics(X, Y, G, categ_features, constraints_features)
+
+    print("------------------------- ONLY intersection")
+    calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True)

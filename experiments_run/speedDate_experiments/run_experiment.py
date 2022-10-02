@@ -21,18 +21,20 @@ from core.counter_causal_generator import *
 from core.metrics import *
 import pandas as pd
 
-'''
+"""
 Script to run the experiments in the speedData dataset 
 link dataset download: https://datahub.io/machine-learning/speed-dating#readme
 info columns dataset: https://www.openml.org/d/40536
 
 Steps:
+
 1. The dataset has been downloaded in the data folder
 2. Create graph - this will be plotted 
 3. Add info. about the features (constrains and categorical features) in two main list. Currently we use:
     constraints_features = {"immutable": ["attractive_o"]}
     categ_features = []
 4. CEILS workflow:
+
     - create model to be explained
     - create structural equations
     - calculate residuals
@@ -40,11 +42,8 @@ Steps:
     - generate counterfactual explanations using 2 methods: baseline and CEILS
     - evaluate results using a set of metrics: taking into account all the explanations or only the common explanations obtained by both methods.
 
-'''
+"""
 
-
-# create folder to save models
-os.makedirs('models', exist_ok=True)
 
 #  Create graph using only 2 features
 def graph_2features():
@@ -91,33 +90,39 @@ def load_dataset(nodes):
 
     return df[nodes]
 
-### START EXPERIMENT
 
-#  generate graph with 4 features
-G = graph_2features()
-nodes = list(G.nodes)
-nx.draw_circular(G, with_labels=True)
-plt.show()
+if __name__ == "main":
+    ### START EXPERIMENT
 
-# info about features
-constraints_features = {"immutable": ["attractive_o"]}
+    # create folder to save models
+    os.makedirs('models', exist_ok=True)
 
-#  return dataset with float values and only features included in the graph
-df = load_dataset(nodes)
 
-Y = df["decision_o"]
-X = df.drop(["decision_o"], axis=1)
-categ_features = []
+    #  generate graph with 4 features
+    G = graph_2features()
+    nodes = list(G.nodes)
+    nx.draw_circular(G, with_labels=True)
+    plt.show()
 
-###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
-struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=5, n_nodes_M=10)
+    # info about features
+    constraints_features = {"immutable": ["attractive_o"]}
 
-###  Create couterfactuals (saved in data folder)
-create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF=20)
+    #  return dataset with float values and only features included in the graph
+    df = load_dataset(nodes)
 
-###  Calculate metrics - results will be printed
-calculate_metrics(X, Y, G, categ_features, constraints_features)
-print("----------- metrics on intersection -------------")
-calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True)
+    Y = df["decision_o"]
+    X = df.drop(["decision_o"], axis=1)
+    categ_features = []
+
+    ###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
+    struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=5, n_nodes_M=10)
+
+    ###  Create couterfactuals (saved in data folder)
+    create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features, numCF=20)
+
+    ###  Calculate metrics - results will be printed
+    calculate_metrics(X, Y, G, categ_features, constraints_features)
+    print("----------- metrics on intersection -------------")
+    calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True)
 
 

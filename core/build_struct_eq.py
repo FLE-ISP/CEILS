@@ -1,4 +1,14 @@
-# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+"""
+Module containing the functon :py:func:`.create_structural_eqs` handling the following steps:
+
+- generation of structural equations (F) mapping U to X (F: U->X)
+- computation of residuals (U)
+- generation of original ML model to predict the target variable Y using the features dataset (C: X->Y)
+- composition of the model in the latent space, integrating the previous components (C_causal(U) = C(F(U)))
+
+"""
+
+# Copyright 2021 Intesa SanPaolo S.p.A. and Fujitsu Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,8 +41,7 @@ early_stopping = EarlyStopping(monitor='val_loss', patience=16, min_delta=0.001,
 
 
 def create_structural_eqs(X, Y, G, n_nodes_se=40, n_nodes_M=100, activation_se='relu'):
-    """
-    Method to create structural equations (F:U->X) and the original prediction model (M:X->Y). This also calculates and stores residuals.
+    """Creates structural equations (F:U->X) and the original prediction model (M:X->Y). This also calculates and stores residuals.
 
     Parameters
     ----------

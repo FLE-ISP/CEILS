@@ -1,4 +1,4 @@
-# Copyright 2021 Intesa SanPaolo S.p.A and Fujitsu Limited
+# Copyright 2021 Intesa SanPaolo S.p.A. and Fujitsu Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,17 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-'''
+"""
 Script to run the experiments in a synthetic dataset to check CEILS advantages
 
 Steps:
+
 1. Create synthetic dataset with the method: sample_synthetic_data(size, random=42):
 2. Create graph - this will be plotted
 3. Add info. about the features (constrains and categorical features) in two main list. Currently we use:
     constraints_features = {"immutable": ["X2"], "higher": []}
     categ_features = []
-
 4. CEILS workflow:
+
     - create model to be explained
     - create structural equations
     - calculate residuals
@@ -30,7 +31,7 @@ Steps:
     - generate counterfactual explanations using 2 methods: baseline and CEILS
     - evaluate results using a set of metrics: taking into account all the explanations or only the common explanations obtained by both methods.
 
-'''
+"""
 
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -42,12 +43,6 @@ from core.counter_causal_generator import *
 from core.metrics import *
 
 
-
-
-# create folder to save models
-os.makedirs('models', exist_ok=True)
-# choose the conterfactuals filename, if not specified (default) is "counterfactuals"
-cf_file_name = "counterfactuals"
 
 def graph_synthetic():
     """
@@ -89,32 +84,39 @@ def sample_synthetic_data(size, random=42):
 
     return pd.DataFrame({"X1": U1, "X2": X2, "Y": Y})
 
-### START EXPERIMENT
 
-#  generate graph
-G = graph_synthetic()
-# nx.draw_circular(G, with_labels=True)
-# plt.show()
+if __name__ == "main":
+    ### START EXPERIMENT
 
-# info about features
-constraints_features = {"immutable": ["X2"], "higher": []}
-categ_features = []
+    # create folder to save models
+    os.makedirs('models', exist_ok=True)
+    # choose the conterfactuals filename, if not specified (default) is "counterfactuals"
+    cf_file_name = "counterfactuals"
 
-#  build dataset
-df = sample_synthetic_data(size=100000)
+    #  generate graph
+    G = graph_synthetic()
+    # nx.draw_circular(G, with_labels=True)
+    # plt.show()
 
-Y = 1*(df["Y"] > df["Y"].median())
-X = df.drop(["Y"], axis=1)
+    # info about features
+    constraints_features = {"immutable": ["X2"], "higher": []}
+    categ_features = []
 
-###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
-struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=100, n_nodes_M=180)
+    #  build dataset
+    df = sample_synthetic_data(size=100000)
 
-###  Create couterfactuals (saved in data folder)
-create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features,
-                       numCF=20, output_filename=cf_file_name)
+    Y = 1*(df["Y"] > df["Y"].median())
+    X = df.drop(["Y"], axis=1)
 
-###  Calculate metrics - results will be printed
-calculate_metrics(X, Y, G, categ_features, constraints_features, cf_file_name=cf_file_name)
+    ###  Create structural equations (NNs saved in models folder), store residuals (saved in data folder)
+    struct_eq, nn_causal = create_structural_eqs(X, Y, G, n_nodes_se=100, n_nodes_M=180)
 
-print("----------- metrics on intersection -------------")
-calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True, cf_file_name=cf_file_name)
+    ###  Create couterfactuals (saved in data folder)
+    create_counterfactuals(X, Y, G, struct_eq, nn_causal, constraints_features,
+                        numCF=20, output_filename=cf_file_name)
+
+    ###  Calculate metrics - results will be printed
+    calculate_metrics(X, Y, G, categ_features, constraints_features, cf_file_name=cf_file_name)
+
+    print("----------- metrics on intersection -------------")
+    calculate_metrics(X, Y, G, categ_features, constraints_features, intersection_only=True, cf_file_name=cf_file_name)

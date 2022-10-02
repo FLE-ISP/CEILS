@@ -76,7 +76,7 @@ Summary of the main variables and functions involved:
 
 ### Generation of counterfactual explanations
 
-In the method ```create_counterfactuals(X, Y, G, F, C_causal, constraints_features, numCF=20)``` from ```core.counter_causal_generator```, two set of counterfactual explanations will be generated based on:
+In the method ```create_counterfactuals(X, Y, G, F, C_causal, constraints_features, numCF=20)``` from ```core.counter_causal_generator```, two sets of counterfactual explanations will be generated based on:
 - CEILS approach: uses the model in the latent space and a general counterfactual generator ([Alibi](https://github.com/SeldonIO/alibi) in our current implementation)
 - Baseline approach: uses the original model and the library [Alibi](https://github.com/SeldonIO/alibi) 
 
@@ -96,4 +96,4 @@ Experiments are under a specific folder in:
 
 We recommend to check the `run_experiment.py` file to know the details and understand the whole CEILS workflow. 
 
-Synthetic datasets experiments are the best way to have a first understanding of our solution
+Synthetic datasets experiments are the best way to have a first understanding of our solution.
