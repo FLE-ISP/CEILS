@@ -65,10 +65,13 @@ def create_structural_eqs(X, Y, G, n_nodes_se=40, n_nodes_M=100, activation_se='
     final : keras.engine.functional.Functional - keras Model
         model in the latent space. Final model that uses structural equations and original prediction model: M^:U->Y. M^(u)=M(F(u))
 
+
     Additionally:
-    In the folder data, residuals are stored
-    In the folder data, the original prediction model (M - stored as "nn_model"), the model for child nodes and structural equations are stored.
-    Performance metrics are printed in the terminal
+    
+    * In the folder data, residuals are stored
+    * In the folder data, the original prediction model (M - stored as "nn_model"), the model for child nodes and structural equations are stored.
+    
+    Performance metrics are printed in the terminal.
     """
 
     # split dataset

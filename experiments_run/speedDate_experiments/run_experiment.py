@@ -91,7 +91,7 @@ def load_dataset(nodes):
     return df[nodes]
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     ### START EXPERIMENT
 
     # create folder to save models

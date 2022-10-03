@@ -85,7 +85,7 @@ def sample_synthetic_data(size, random=42):
     return pd.DataFrame({"X1": U1, "X2": X2, "Y": Y})
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     ### START EXPERIMENT
 
     # create folder to save models

@@ -99,7 +99,7 @@ def load_germandataset(nodes):
     return df[nodes]
 
 
-if __name__ == "main":
+if __name__ == "__main__":
 
     ### START EXPERIMENT
 

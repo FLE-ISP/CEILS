@@ -132,7 +132,7 @@ def load_adultdataset(nodes):
     return df[nodes]
 
 
-if __name__ == "main":
+if __name__ == "__main__":
 
     ### START EXPERIMENT
 

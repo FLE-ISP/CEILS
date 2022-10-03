@@ -1,10 +1,14 @@
+"""
+Module with class :py:class:`.LabelConverter`.
+"""
+
 # Copyright 2021 Intesa SanPaolo S.p.A. and Fujitsu Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,10 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 import tensorflow as tf
 
-class LabelConverter(tf.keras.layers.Layer):
 
+class LabelConverter(tf.keras.layers.Layer):
+    """
+    Class inherited from `tf.keras.layers.Layer`.
+    """
+    
     def __init__(self, data_dict, **kwargs):
         super(LabelConverter, self).__init__(**kwargs)
         super().__init__(**kwargs)
