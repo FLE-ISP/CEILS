@@ -9,11 +9,13 @@ Counterfactual Explanations as Interventions in Latent Space (CEILS) is a method
 
 You can cite this work as:
 ```
-@article{crupi2021counterfactual,
-  title={Counterfactual Explanations as Interventions in Latent Space},
-  author={Crupi, Riccardo and Castelnovo, Alessandro and Regoli, Daniele and Gonzalez, Beatriz San Miguel},
-  journal={arXiv preprint arXiv:2106.07754},
-  year={2021}
+@article{crupi2022counterfactual,
+  title={Counterfactual explanations as interventions in latent space},
+  author={Crupi, Riccardo and Castelnovo, Alessandro and Regoli, Daniele and San Miguel Gonzalez, Beatriz},
+  journal={Data Mining and Knowledge Discovery},
+  pages={1--37},
+  year={2022},
+  publisher={Springer}
 }
 ```
 
